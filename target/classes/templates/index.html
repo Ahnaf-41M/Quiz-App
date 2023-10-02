@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/index.css}">
+		<title>Home Page</title>
+	</head>
+
+	<body>
+
+		<!-- Importing navbar-->
+		<div th:insert="navbar.html :: navbar"></div>
+
+		<div class="main-container container px=4 py=5">
+			<div class="image-box">
+				<img th:src="@{/images/exam.svg}" alt="images">
+			</div>
+			<div class="text-box">
+				<h1 class="mb-5 text-center ">Spring Boot Quiz App</h1>
+
+				<form class="card bg-dark px-4 py-5" action="/quiz" method="POST">
+					<label for="userId" class="lab1">Enter your ID</label>
+					<input type="number" th:field="${userObj.userId}" name="userId">
+
+					<label for="userName" class="lab1">Enter your name</label>
+					<input type="text" th:field="${userObj.userName}" name="userName">
+
+					<label for="userPass" class="lab1">Enter Password</label>
+					<input type="text" th:field="${userObj.userPass}" name="userPass">
+
+					<p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
+
+					<div class="d-flex justify-content-center">
+						<button type="submit" class="btn btn-warning" formaction="/home" formmethod="post">
+							Sign Up
+						</button>
+						<button type="submit" class="btn btn-warning">Start Quiz</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+		<!-- Inserting footer -->
+		<div th:insert="footer.html :: footer"></div>
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+
+</html>

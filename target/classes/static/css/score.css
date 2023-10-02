@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+footer {
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+}
+.main-container {
+  min-height: calc(100vh - 136px);
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+tr {
+  border: 1px solid black;
+}
+
+th,
+td {
+  padding: 10px;
+  font-size: 20px;
+}
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
