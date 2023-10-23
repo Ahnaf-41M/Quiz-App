@@ -107,3 +107,53 @@ values(
 	3,
 	-1)
 ;
+insert into questions(ques_id, title, optionA, optionB, optionC, ans, chose)
+values(
+	11, 
+	'Which component is used to compile, debug and execute the java programs?',  
+	'JRE',
+	'JVM',
+	'JDK',
+	3,
+	-1)
+;
+insert into questions(ques_id, title, optionA, optionB, optionC, ans, chose)
+values(
+	12, 
+	'Number of primitive data types in Java are?',  
+	'7',
+	'8',
+	'9',
+	2,
+	-1)
+;
+insert into questions(ques_id, title, optionA, optionB, optionC, ans, chose)
+values(
+	13, 
+	'What is the size of float and double in java?',  
+	'32 and 64',
+	'32 and 32',
+	'64 and 64',
+	1,
+	-1)
+;
+insert into questions(ques_id, title, optionA, optionB, optionC, ans, chose)
+values(
+	14, 
+	'Automatic type conversion is possible in which of the possible cases?',  
+	'Long to int',
+	'Int to long',
+	'Short to int',
+	2,
+	-1)
+;
+insert into questions(ques_id, title, optionA, optionB, optionC, ans, chose)
+values(
+	15, 
+	'Select the valid statement.',  
+	'char[] ch = new char[];',
+	'char[] ch = new char();',
+	'char[] ch = new char[5];',
+	3,
+	-1)
+;
