@@ -21,6 +21,8 @@ import com.main.service.QuizService;
 public class MainController {
 
     @Autowired
+    User userObj;
+    @Autowired
     Result result;
 
     Boolean submitted = false;
@@ -39,14 +41,27 @@ public class MainController {
         return result;
     }
 
-    @GetMapping({"/", "/home"})
-    public String home(@ModelAttribute("userObj") User userObj, Model mod) {
+    @ModelAttribute
+    public void GlobalVariable(Model mod) {
+        mod.addAttribute("userObj", userObj);
+    }
 
+    @GetMapping({"/", "/home"})
+    public String home(Model mod, @ModelAttribute("userObj") User userObj) {
         return "index.html";
     }
 
+    void ClearObj() {
+        userObj.setUserId(-1);
+        userObj.setUserName("");
+        userObj.setUserPass("");
+        userObj.setSubmitted(false);
+        userObj.setTotalCorrect(0);
+    }
+
     @PostMapping("/home")
-    public String home(RedirectAttributes ra, Model mod, User userObj) {
+    public String home(RedirectAttributes ra, Model mod, @ModelAttribute("userObj") User userObj) {
+
         if (userObj == null) {
             ra.addFlashAttribute("warning", "object is null");
         } else if (userObj.getUserId() == -1 || userObj.getUserName().isEmpty()
@@ -55,23 +70,37 @@ public class MainController {
         } else if (uRepo.existsById(userObj.getUserId()) == true) {
             ra.addFlashAttribute("warning", "User ID already exists!");
         } else {
+            // System.out.println("Else ok true");
             uRepo.save(userObj);
             ra.addFlashAttribute("warning", "Account created successfully!");
+            ClearObj();
         }
-        mod.addAttribute("userObj", userObj);
+
         return "redirect:/home";
     }
 
     @PostMapping("/quiz")
     public String quiz(@ModelAttribute("userObj") User userObj, Model mod, RedirectAttributes ra) {
+        boolean ok = false;
+        if (userObj == null) {
+            ra.addFlashAttribute("warning", "object is null");
+        } else if (userObj.getUserId() == -1 || userObj.getUserName().isEmpty()
+                || userObj.getUserPass().isEmpty()) {
+            ra.addFlashAttribute("warning", "Fields can't be empty!");
+        } else if (!uRepo.existsById(userObj.getUserId())) {
+            ra.addFlashAttribute("warning", "Invalid user ID!");
+        } else
+            ok = true;
+        if (!ok)
+            return "redirect:/home";
         User tmpObj = uRepo.getOne(userObj.getUserId());
-        System.out.println("## Quiz: " + userObj.getUserId());
+        // System.out.println("## Quiz: " + userObj.getUserId());
 
         if (tmpObj.getUserPass().equals(userObj.getUserPass()) == false) {
             ra.addFlashAttribute("warning", "Invalid Password!");
             return "redirect:/home";
         }
-        userObj = tmpObj;
+        ClearObj();
         QuestionForm qForm = qService.getQuestions();
         mod.addAttribute("qForm", qForm);
         mod.addAttribute("userObj", tmpObj);
