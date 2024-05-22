@@ -26,8 +26,8 @@
 					<th>Name</th>
 					<th>Score</th>
 				</tr>
-				<tr th:each="score : ${sList}">
-					<td th:text="${score.username}"></td>
+				<tr th:each="score : ${scoreList}">
+					<td th:text="${score.userName}"></td>
 					<td th:text="${score.totalCorrect}"></td>
 				</tr>
 			</table>
