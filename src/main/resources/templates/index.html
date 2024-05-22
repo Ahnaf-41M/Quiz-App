@@ -23,20 +23,20 @@
 			<div class="text-box">
 				<h1 class="mb-5 text-center ">Spring Boot Quiz App</h1>
 
-				<form class="card bg-dark px-4 py-5" action="/quiz" method="POST">
+				<form class="card bg-dark px-4 py-5" action="/startQuiz" method="POST">
 					<label for="userId" class="lab1">Enter your ID</label>
-					<input type="number" th:field="${userObj.userId}" name="userId">
+					<input type="text" th:field="${userObj.userId}" name="userId" placeholder="i.e. user410">
 
 					<label for="userName" class="lab1">Enter your name</label>
-					<input type="text" th:field="${userObj.userName}" name="userName">
+					<input type="text" th:field="${userObj.userName}" name="userName" placeholder="i.e. Bob Marly">
 
 					<label for="userPass" class="lab1">Enter Password</label>
 					<input type="text" th:field="${userObj.userPass}" name="userPass">
 
-					<p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
+					<p class="text-danger fw-bold warning" th:if="${warning}" th:text="${warning}"></p>
 
 					<div class="d-flex justify-content-center">
-						<button type="submit" class="btn btn-warning" formaction="/home" formmethod="post">
+						<button type="submit" class="btn btn-warning" formaction="/registerUser" formmethod="post">
 							Sign Up
 						</button>
 						<button type="submit" class="btn btn-warning">Start Quiz</button>
