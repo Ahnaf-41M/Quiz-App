@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.main.model.Result;
 
 @Repository
-public interface ResultRepo extends JpaRepository<Result, Integer> {
+public interface ResultRepository extends JpaRepository<Result, Integer> {
+    Result findByUserId(String userId);
 
 }
