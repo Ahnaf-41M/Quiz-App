@@ -1,53 +1,32 @@
 package com.main.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Component
 @Entity
 @Table(name = "results")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Result {
-
 	@Id
-	private int id = -1;
-	private String username;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int rId;
+	@Column(unique = true, nullable = false)
+	private String userId;
+	private String userName;
 	private int totalCorrect = 0;
-
-	public Result() {
-		super();
-	}
-
-	public Result(int id, String username, int totalCorrect) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.totalCorrect = totalCorrect;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public int getTotalCorrect() {
-		return totalCorrect;
-	}
-
-	public void setTotalCorrect(int totalCorrect) {
-		this.totalCorrect = totalCorrect;
-	}
-
 }
