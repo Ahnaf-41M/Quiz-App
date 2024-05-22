@@ -1,72 +1,78 @@
 package com.main.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Component
 @Entity
 @Table(name = "users")
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class User implements UserDetails {
 
     @Id
-    private int userId = -1;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int uId;
+    @Column(unique = true, nullable = false)
+    private String userId;
     private String userName;
     private String userPass;
     private int totalCorrect;
     private boolean submitted = false;
-
-    public User() {}
-
-    public User(int userId, String userName, String userPass, int totalCorrect, boolean submitted) {
-        this.userId = userId;
-        this.userName = userName;
-        this.userPass = userPass;
-        this.totalCorrect = totalCorrect;
-        this.submitted = submitted;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    private String role = "USER";
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        return authorities;
     }
 
-    public String getUserPass() {
+    @Override
+    public String getPassword() {
         return userPass;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    @Override
+    public String getUsername() {
+        return userId;
     }
 
-    public int getTotalCorrect() {
-        return totalCorrect;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setTotalCorrect(int totalCorrect) {
-        this.totalCorrect = totalCorrect;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public boolean isSubmitted() {
-        return submitted;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setSubmitted(boolean submitted) {
-        this.submitted = submitted;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
-
-
-
 }
