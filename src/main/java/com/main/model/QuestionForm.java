@@ -13,5 +13,4 @@ import lombok.NoArgsConstructor;
 public class QuestionForm {
 
 	private List<Question> questions;
-
 }
