@@ -8,25 +8,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Component
 @Entity
 @Table(name = "results")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class Result {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int rId;
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	private String userId;
+	@Column(nullable = false)
 	private String userName;
+	@Column(nullable = false)
+	private int topicId;
+	@Column(nullable = false)
+	private String topicName;
 	private int totalCorrect = 0;
 }
