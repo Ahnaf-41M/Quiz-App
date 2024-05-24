@@ -2,24 +2,23 @@ package com.main.service;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.main.model.Question;
 import com.main.model.QuestionForm;
 import com.main.model.Result;
+import com.main.model.Topic;
 import com.main.model.User;
 import com.main.repository.QuestionRepository;
+import com.main.repository.QuizRepository;
 import com.main.repository.ResultRepository;
+import com.main.repository.TopicRepository;
 import com.main.repository.UserRepository;
 
 @Service
@@ -34,17 +33,23 @@ public class QuizService {
     @Autowired
     QuestionRepository questionRepository;
     @Autowired
+    QuizRepository quizRepository;
+    @Autowired
     Result result;
     @Autowired
     ResultRepository resultRepository;
 
-    public QuestionForm getQuestions() {
-        List<Question> allQues = questionRepository.findAll();
+    @Autowired
+    TopicRepository topicRepository;
+
+    public QuestionForm getQuestions(int topicId) {
+        List<Question> allQues = questionRepository.findByTopicId(topicId);
         List<Question> qList = new ArrayList<Question>();
+        int totQues = allQues.size();
 
         Random rand = new Random();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Math.min(5, totQues); i++) {
             int ind = rand.nextInt(allQues.size());
             qList.add(allQues.get(ind));
             allQues.remove(ind);
@@ -64,21 +69,18 @@ public class QuizService {
         return correct;
     }
 
-    public void saveScore(Result result) {
-        Result saveResult = new Result();
-        saveResult.setUserName(result.getUserName());
-        saveResult.setTotalCorrect(result.getTotalCorrect());
-        resultRepository.save(saveResult);
-    }
-
-    public String scoreListService(Model model) {
-        List<Result> scoreList =
+    public String topScoresService(Model model) {
+        List<Result> topResults =
                 resultRepository.findAll(Sort.by(Sort.Direction.DESC, "totalCorrect"));
-        model.addAttribute("scoreList", scoreList);
-        return "scoreboard.html";
+        List<Topic> topicList = topicRepository.findAll();
+        model.addAttribute("topResults", topResults);
+        model.addAttribute("topicList", topicList);
+        return "topScores";
     }
 
-    public String loginService(Principal principal, Model model, RedirectAttributes ra) {
+    public String loginService(Principal principal, Model model, RedirectAttributes ra,
+            int topicId) {
+
         System.out.println("*****loginService " + principal);
         if (principal == null) {
             ra.addFlashAttribute("warning", "Fields can't be empty!");
@@ -88,25 +90,23 @@ public class QuizService {
             return "home";
         } else {
             User userObj = userRepository.findByUserId(principal.getName());
-            if (userObj.isSubmitted()) {
-                model.addAttribute("userObj", userObj);
-                return "redirect:/myScore";
-            }
-            System.out.println("*****loginService: " + userObj);
-            return startQuizService(userObj, model, ra);
+            return startQuizService(userObj, model, ra, topicId);
         }
     }
 
-    public String startQuizService(User userObj, Model model, RedirectAttributes ra) {
-        questionForm = getQuestions();
+    public String startQuizService(User userObj, Model model, RedirectAttributes ra, int topicId) {
+        questionForm = getQuestions(topicId);
         model.addAttribute("questionForm", questionForm);
         model.addAttribute("userObj", userObj);
+        model.addAttribute("topicName", topicRepository.findByTopicId(topicId).getTopicName());
+        model.addAttribute("topicId", topicId);
 
         System.out.println("*****startQuizService: " + userObj);
         return "quiz";
     }
 
-    public String submitQuizService(QuestionForm questionForm, String userId, Model model) {
+    public String submitQuizService(QuestionForm questionForm, String userId, Model model,
+            int topicId) {
 
         User userObj = userRepository.findByUserId(userId);
         // System.out.println("*****submitQuizService " + userObj);
@@ -121,13 +121,15 @@ public class QuizService {
         Result newResult = new Result();
         newResult.setUserId(userObj.getUserId());
         newResult.setUserName(userObj.getUserName());
+        newResult.setTopicId(topicId);
+        newResult.setTopicName(topicRepository.findByTopicId(topicId).getTopicName());
         newResult.setTotalCorrect(userObj.getTotalCorrect());
 
         userRepository.save(userObj);
         resultRepository.save(newResult);
 
         // model.addAttribute("userObj", userObj);
-        return "redirect:/myScore";
+        return "redirect:/myResult";
     }
 
     public String registerUserService(RedirectAttributes ra, Model model, User userObj) {
@@ -144,7 +146,19 @@ public class QuizService {
             userRepository.save(userObj);
             ra.addFlashAttribute("success", "Account created successfully!");
         }
-
         return "redirect:/home";
+    }
+
+    public String dashboardService(Model model, Principal principal) {
+        List<Topic> topicList = new ArrayList<>();
+        List<Topic> allTopics = topicRepository.findAll();
+
+        for (Topic cur : allTopics) {
+            if (!resultRepository.existsByUserIdAndTopicId(principal.getName(), cur.getTopicId())) {
+                topicList.add(cur);
+            }
+        }
+        model.addAttribute("topicList", topicList);
+        return "dashboard";
     }
 }
