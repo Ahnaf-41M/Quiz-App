@@ -1,7 +1,7 @@
 package com.main.controller;
 
 import java.security.Principal;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.main.model.QuestionForm;
+import com.main.model.Result;
 import com.main.model.User;
+import com.main.repository.QuizRepository;
 import com.main.repository.ResultRepository;
+import com.main.repository.TopicRepository;
 import com.main.repository.UserRepository;
 import com.main.service.QuizService;
 
@@ -28,6 +30,12 @@ public class MainController {
     UserRepository userRepo;
     @Autowired
     ResultRepository resultRepo;
+
+    @Autowired
+    QuizRepository quizRepository;
+
+    @Autowired
+    TopicRepository topicRepository;
 
 
     @GetMapping({"/", "/home"})
@@ -44,27 +52,37 @@ public class MainController {
 
 
     @GetMapping("/startQuiz")
-    public String startQuiz(Principal principal, Model model, RedirectAttributes ra) {
-        return quizService.loginService(principal, model, ra);
+    public String startQuiz(Principal principal, Model model, RedirectAttributes ra,
+            @RequestParam int topicId) {
+        System.out.println("****Topic ID: " + topicId);
+        return quizService.loginService(principal, model, ra, topicId);
     }
 
-    @GetMapping("/myScore")
+    @GetMapping("/dashboard")
+    public String dashboard(Model model, Principal principal) {
+        return quizService.dashboardService(model, principal);
+    }
+
+    @GetMapping("/myResult")
     public String myResult(Principal p, Model model) {
-        System.out.println("myScore principle " + p.getName());
-        User userObj = userRepo.findByUserId(p.getName());
-        model.addAttribute("userObj", userObj);
-        return "result";
+        System.out.println("myResult principle " + p.getName());
+        // User userObj = userRepo.findByUserId(p.getName());
+        // model.addAttribute("userObj", userObj);
+
+        List<Result> resultList = resultRepo.findByUserId(p.getName());
+        model.addAttribute("resultList", resultList);
+        return "myResult";
     }
 
     @PostMapping("/submitQuiz")
-    public String submitQuiz(@ModelAttribute("questionForm") QuestionForm questionForm,
-            @RequestParam String userId, Model model) {
-        return quizService.submitQuizService(questionForm, userId, model);
+    public String submitQuiz(@ModelAttribute QuestionForm questionForm, @RequestParam int topicId,
+            Principal principal, Model model) {
+        return quizService.submitQuizService(questionForm, principal.getName(), model, topicId);
     }
 
-    @GetMapping(value = "/scoreList")
-    public String scoreList(Model model) {
-        return quizService.scoreListService(model);
+    @GetMapping("/topScores")
+    public String topScores(Model model) {
+        return quizService.topScoresService(model);
     }
 
 }
