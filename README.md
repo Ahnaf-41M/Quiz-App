@@ -1,7 +1,10 @@
 # Quiz-App
 
-## Home Page
+## Signup Page
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/8f86a4df-8524-4a0b-958e-327d05d098c5)
+
+## Login Page
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/ebee4039-6c49-433a-ab54-ef655bedb12a)
 
 ## Dashboard
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/e4453d98-72e1-41fd-b4b7-f7b607e7b81f)
