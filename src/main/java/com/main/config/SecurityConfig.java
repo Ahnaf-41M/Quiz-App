@@ -38,9 +38,10 @@ public class SecurityConfig {
 
         return http.csrf(csrf -> csrf.disable()).authorizeRequests()
                 .antMatchers("/", "/home", "/registerUser").permitAll()
-                .antMatchers("/startQuiz", "/submitQuiz", "/scoreList", "/myScore").authenticated()
-                .anyRequest().permitAll().and().formLogin(form -> form.loginPage("/home")
-                        .loginProcessingUrl("/login").defaultSuccessUrl("/startQuiz").permitAll())
+                .antMatchers("/startQuiz", "/submitQuiz", "/topScores", "/myResult", "/dashboard")
+                .authenticated().anyRequest().permitAll().and()
+                .formLogin(form -> form.loginPage("/home").loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/dashboard").permitAll())
                 .build();
         // http.csrf((csrf) -> csrf.disable())
         // .authorizeRequests((authz) -> authz.requestMatchers("/").permitAll()
