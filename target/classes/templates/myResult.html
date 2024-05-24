@@ -7,31 +7,34 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" th:href="@{/css/score.css}">
-		<title>Score Board</title>
+		<link rel="stylesheet" th:href="@{/css/result.css}">
+		<title>Result Page</title>
 	</head>
 
-	<body>
+	<body style="background-color: #CDE8E5;">
 		<!-- Importing navbar-->
 		<div th:insert="navbar.html :: navbar"></div>
 
-		<!--Main Container Starts-->
-		<div class="main-container container px-4 py-5">
-			<h3 class="bg-danger text-center mb-5 p-2">
-				Top Scores of All Time
+		<div class="container px-4 py-2">
+			<h3 class="bg-danger text-center mb-2 p-2 text-light">
+				My Results
 			</h3>
-
-			<table class="bg-dark text-light">
-				<tr>
-					<th>Name</th>
-					<th>Score</th>
+			<table class="table text-light table-bordered" style="background-color: #006769;">
+				<tr class="text-light">
+					<th>Quiz Name</th>
+					<th>Correct Answers</th>
+					<th>Incorrect Answers</th>
 				</tr>
-				<tr th:each="score : ${sList}">
-					<td th:text="${score.username}"></td>
-					<td th:text="${score.totalCorrect}"></td>
+
+				<tr th:each="result : ${resultList}">
+					<td th:text="${result.topicName}"></td>
+					<td th:text="${result.totalCorrect}"></td>
+					<td th:text="5 - ${result.totalCorrect}"></td>
 				</tr>
 			</table>
 		</div>
+
+
 		<!-- Inserting footer -->
 		<div th:insert="footer.html :: footer"></div>
 		<!-- Bootstrap JS -->

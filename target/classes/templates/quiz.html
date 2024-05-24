@@ -11,7 +11,7 @@
 		<title>Quiz Page</title>
 	</head>
 
-	<body>
+	<body style="background-color: #CDE8E5;">
 		<!-- Importing navbar-->
 		<div th:insert="navbar.html :: navbar"></div>
 
@@ -19,56 +19,47 @@
 
 
 			<h1 class="bg-danger text-light">Only Select the Correct Answer</h1>
-			<form action="submit" method="POST" th:object="${qForm}">
+			<form th:action="@{/submitQuiz(topicId=${topicId})}" method="POST" th:object="${questionForm}">
+				<!-- (topicId=${topicId})} -->
 				<!--Importing values to variables from userObj-->
+
 				<div th:object="${userObj}">
 					<label for="userId"></label>
 					<input type="hidden" th:field="${userObj.userId}" name="userId">
 
-					<label for="userName"></label>
+					<!-- <label for="userName"></label>
 					<input type="hidden" th:field="${userObj.userName}" name="userName">
 
 					<label for="userPass"></label>
-					<input type="hidden" th:field="${userObj.userPass}" name="userPass">
+					<input type="hidden" th:field="${userObj.userPass}" name="userPass"> -->
 				</div>
 
-				<!--Importing values to variables from userObj-->
-				<!-- <div th:object="${userObj}">
-					<label for="${userObj2.userId}"></label>
-					<input type="hidden" th:field="${userObj.userId}" name="${userObj2.userId}">
-
-					<label for="${userObj2.userName}"></label>
-					<input type="hidden" th:field="${userObj.userName}" name="${userObj2.userName}">
-
-					<label for="${userObj2.userPass}"></label>
-					<input type="hidden" th:field="${userObj.userPass}" name="${userObj2.userPass}">
-				</div> -->
-
-
-				<div class="ques-box bg-dark text-light" th:each="ques, i : ${qForm.questions}">
+				<div class="ques-box bg-dark text-light" th:each="ques, i : ${questionForm.questions}">
 					<p class="title" th:text="${ques.title}"></p>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chose|" th:value="1">
+						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="1">
 						<p th:text="${ques.optionA}"></p>
 					</div>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chose|" th:value="2">
+						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="2">
 						<p th:text="${ques.optionB}"></p>
 					</div>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chose|" th:value="3">
+						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="3">
 						<p th:text="${ques.optionC}"></p>
 					</div>
-
 
 					<input type="hidden" th:name="|questions[${i.index}].quesId|" th:value="${ques.quesId}">
 					<input type="hidden" th:name="|questions[${i.index}].title|" th:value="${ques.title}">
 					<input type="hidden" th:name="|questions[${i.index}].ans|" th:value="${ques.ans}">
 				</div>
+				<h1>[[${topicId}]]</h1>
 				<button type="submit" class="btn btn-warning d-block mx-auto mt-4">Submit</button>
+				<!-- (id=${topicId}) -->
+
 			</form>
 		</div>
 		<!-- Inserting footer -->

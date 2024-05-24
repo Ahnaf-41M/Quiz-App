@@ -9,9 +9,10 @@ footer {
   text-align: center;
   line-height: 80px;
 }
-.main-container {
-  min-height: calc(100vh - 136px);
-}
+
+/* .main-container {
+  min-height: calc(100vh - 200px);
+} */
 
 table {
   width: 100%;
@@ -19,13 +20,13 @@ table {
 }
 
 tr {
-  border: 1px solid black;
+  border: 1px solid white;
 }
 
 th,
 td {
   padding: 10px;
-  font-size: 20px;
+  font-size: 18px;
 }
 body {
   width: 100%;
