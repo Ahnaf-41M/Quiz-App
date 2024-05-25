@@ -48,16 +48,14 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                // Select the message element
                 var messageElement = document.getElementById('sessionMessage');
-
-                // Check if the element has content
                 if (messageElement.textContent.trim() !== '') {
                     // Set a timer to hide the element after 2 seconds (2000 milliseconds)
                     setTimeout(function () {
                         messageElement.classList.add('hidden');
                     }, 2000);
                 }
+
             });
         </script>
         <!-- Bootstrap JS -->
