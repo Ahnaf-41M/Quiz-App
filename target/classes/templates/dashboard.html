@@ -17,17 +17,17 @@
             <h3 class="mt-1 mb-4 p-2 bg-success text-light">Upcoming Quizes</h3>
         </div>
 
-        <div class="container mb-3" th:each="topic : ${topicList}">
+        <div class="container mb-3" th:each="test : ${testList}">
             <div class="row">
                 <div class="col-12">
                     <div class="card text-center text-light" style="background-color: #006769;">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${topic.topicName}"></h5>
-                            <p class="card-text fst-italic fw-light" th:text="${topic.topicDescription}">
+                            <h5 class="card-title" th:text="${test.testName}"></h5>
+                            <p class="card-text fst-italic fw-light" th:text="${test.testDescription}">
                             </p>
                             <!-- <button type="button" class="btn btn-success"
                                 formaction="window.location.href='/startQuiz'">Start Quiz</button> -->
-                            <a class="btn btn-success" th:href="@{startQuiz(topicId=${topic.topicId})}">Start
+                            <a class="btn btn-success" th:href="@{/user/startQuiz(testId=${test.testId})}">Start
                                 Quiz</a>
                         </div>
                     </div>

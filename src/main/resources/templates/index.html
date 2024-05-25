@@ -23,7 +23,7 @@
 			<div class="text-box">
 				<h1 class="mb-5 text-center ">Spring Boot Quiz App</h1>
 
-				<form class="card bg-dark px-4 py-5" action="/startQuiz" method="POST">
+				<form class="card bg-dark px-4 py-5" action="/user/startQuiz" method="POST">
 					<label for="userId" class="lab1">Enter your ID</label>
 					<input type="text" th:field="${userObj.userId}" name="userId" placeholder="i.e. user410">
 
@@ -36,7 +36,7 @@
 					<p class="text-danger fw-bold warning" th:if="${warning}" th:text="${warning}"></p>
 
 					<div class="d-flex justify-content-center">
-						<button type="submit" class="btn btn-warning" formaction="/registerUser" formmethod="post">
+						<button type="submit" class="btn btn-warning" formaction="/user/registerUser" formmethod="post">
 							Sign Up
 						</button>
 						<button type="submit" class="btn btn-warning">Start Quiz</button>

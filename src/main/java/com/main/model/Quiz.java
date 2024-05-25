@@ -17,6 +17,6 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int quizId;
-    private int topicId;
+    private int testId;
     private String quizDescription;
 }

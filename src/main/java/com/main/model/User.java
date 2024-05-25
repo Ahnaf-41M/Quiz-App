@@ -32,8 +32,7 @@ public class User implements UserDetails {
     private String userName;
     private String userPass;
     private int totalCorrect;
-    private boolean submitted = false;
-    private String role = "USER";
+    private String role = "ROLE_USER";
 
     public String getUserName() {
         return userName;

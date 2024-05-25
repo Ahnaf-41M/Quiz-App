@@ -13,12 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.main.model.Question;
 import com.main.model.QuestionForm;
 import com.main.model.Result;
-import com.main.model.Topic;
+import com.main.model.Test;
 import com.main.model.User;
 import com.main.repository.QuestionRepository;
 import com.main.repository.QuizRepository;
 import com.main.repository.ResultRepository;
-import com.main.repository.TopicRepository;
+import com.main.repository.TestRepository;
 import com.main.repository.UserRepository;
 
 @Service
@@ -40,10 +40,10 @@ public class QuizService {
     ResultRepository resultRepository;
 
     @Autowired
-    TopicRepository topicRepository;
+    TestRepository testRepository;
 
-    public QuestionForm getQuestions(int topicId) {
-        List<Question> allQues = questionRepository.findByTopicId(topicId);
+    public QuestionForm getQuestions(int testId) {
+        List<Question> allQues = questionRepository.findByTestId(testId);
         List<Question> qList = new ArrayList<Question>();
         int totQues = allQues.size();
 
@@ -72,14 +72,14 @@ public class QuizService {
     public String topScoresService(Model model) {
         List<Result> topResults =
                 resultRepository.findAll(Sort.by(Sort.Direction.DESC, "totalCorrect"));
-        List<Topic> topicList = topicRepository.findAll();
+        List<Test> testList = testRepository.findAll();
         model.addAttribute("topResults", topResults);
-        model.addAttribute("topicList", topicList);
+        model.addAttribute("testList", testList);
         return "topScores";
     }
 
     public String loginService(Principal principal, Model model, RedirectAttributes ra,
-            int topicId) {
+            int testId) {
 
         System.out.println("*****loginService " + principal);
         if (principal == null) {
@@ -90,46 +90,41 @@ public class QuizService {
             return "home";
         } else {
             User userObj = userRepository.findByUserId(principal.getName());
-            return startQuizService(userObj, model, ra, topicId);
+            return startQuizService(userObj, model, ra, testId);
         }
     }
 
-    public String startQuizService(User userObj, Model model, RedirectAttributes ra, int topicId) {
-        questionForm = getQuestions(topicId);
+    public String startQuizService(User userObj, Model model, RedirectAttributes ra, int testId) {
+        questionForm = getQuestions(testId);
         model.addAttribute("questionForm", questionForm);
         model.addAttribute("userObj", userObj);
-        model.addAttribute("topicName", topicRepository.findByTopicId(topicId).getTopicName());
-        model.addAttribute("topicId", topicId);
+        model.addAttribute("testName", testRepository.findByTestId(testId).getTestName());
+        model.addAttribute("testId", testId);
 
         System.out.println("*****startQuizService: " + userObj);
         return "quiz";
     }
 
     public String submitQuizService(QuestionForm questionForm, String userId, Model model,
-            int topicId) {
+            int testId) {
 
         User userObj = userRepository.findByUserId(userId);
-        // System.out.println("*****submitQuizService " + userObj);
-        // System.out.println("*****submitQuizService " + questionForm);
         int totCorrect = getResult(questionForm);
-        // System.out.println("*****Submit Entered!" + " " + userObj.getUserId() + " "
-        // + userObj.getUserName() + " " + totCorrect);
-
-        userObj.setSubmitted(true);
-        userObj.setTotalCorrect(totCorrect);
 
         Result newResult = new Result();
+        userObj.setTotalCorrect(totCorrect);
         newResult.setUserId(userObj.getUserId());
         newResult.setUserName(userObj.getUserName());
-        newResult.setTopicId(topicId);
-        newResult.setTopicName(topicRepository.findByTopicId(topicId).getTopicName());
+        newResult.setTestId(testId);
+        newResult.setTestName(testRepository.findByTestId(testId).getTestName());
         newResult.setTotalCorrect(userObj.getTotalCorrect());
 
         userRepository.save(userObj);
         resultRepository.save(newResult);
 
-        // model.addAttribute("userObj", userObj);
-        return "redirect:/myResult";
+        List<Result> resulList = resultRepository.findByUserId(userObj.getUserId());
+        model.addAttribute("result", resulList);
+        return "redirect:/user/myResult";
     }
 
     public String registerUserService(RedirectAttributes ra, Model model, User userObj) {
@@ -150,15 +145,15 @@ public class QuizService {
     }
 
     public String dashboardService(Model model, Principal principal) {
-        List<Topic> topicList = new ArrayList<>();
-        List<Topic> allTopics = topicRepository.findAll();
+        List<Test> testList = new ArrayList<>();
+        List<Test> allTests = testRepository.findAll();
 
-        for (Topic cur : allTopics) {
-            if (!resultRepository.existsByUserIdAndTopicId(principal.getName(), cur.getTopicId())) {
-                topicList.add(cur);
+        for (Test cur : allTests) {
+            if (!resultRepository.existsByUserIdAndTestId(principal.getName(), cur.getTestId())) {
+                testList.add(cur);
             }
         }
-        model.addAttribute("topicList", topicList);
+        model.addAttribute("testList", testList);
         return "dashboard";
     }
 }

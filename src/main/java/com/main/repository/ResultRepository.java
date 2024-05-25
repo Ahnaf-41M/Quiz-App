@@ -9,6 +9,6 @@ import com.main.model.Result;
 public interface ResultRepository extends JpaRepository<Result, Integer> {
     List<Result> findByUserId(String userId);
 
-    boolean existsByUserIdAndTopicId(String userId, int topicId);
+    boolean existsByUserIdAndTestId(String userId, int testId);
 
 }

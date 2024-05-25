@@ -27,5 +27,5 @@ public class Question {
 	private String optionC;
 	private int ans;
 	private int chosen;
-	private int topicId;
+	private int testId;
 }

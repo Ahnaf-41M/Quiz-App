@@ -1,5 +1,6 @@
 package com.main.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,6 +14,10 @@ import com.main.service.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    CustomAuthSucessHandler customAuthSucessHandler;
+
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,20 +41,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http.csrf(csrf -> csrf.disable()).authorizeRequests()
-                .antMatchers("/", "/home", "/registerUser").permitAll()
-                .antMatchers("/startQuiz", "/submitQuiz", "/topScores", "/myResult", "/dashboard")
-                .authenticated().anyRequest().permitAll().and()
-                .formLogin(form -> form.loginPage("/home").loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/dashboard").permitAll())
-                .build();
-        // http.csrf((csrf) -> csrf.disable())
-        // .authorizeRequests((authz) -> authz.requestMatchers("/").permitAll()
-        // .requestMatchers("/user/**", "/profile").authenticated().anyRequest()
-        // .permitAll())
-        // .formLogin(form -> form.loginPage("/signin").loginProcessingUrl("/login")
-        // .defaultSuccessUrl("/profile").permitAll());
+        // return http.csrf(csrf -> csrf.disable()).authorizeRequests()
+        // .antMatchers("/", "/home", "/registerUser").permitAll()
+        // .antMatchers("/startQuiz", "/submitQuiz", "/topScores", "/myResult", "/dashboard")
+        // .authenticated().anyRequest().permitAll().and()
+        // .formLogin(form -> form.loginPage("/home").loginProcessingUrl("/login")
+        // .defaultSuccessUrl("/dashboard").permitAll())
+        // .build();
 
-        // return http.build();
+        return http.csrf(csrf -> csrf.disable()).authorizeRequests().antMatchers("/user/**")
+                .hasRole("USER").antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/**")
+                .permitAll().and()
+                .formLogin(form -> form.loginPage("/home").loginProcessingUrl("/login")
+                        .successHandler(customAuthSucessHandler).permitAll())
+                .build();
     }
 }

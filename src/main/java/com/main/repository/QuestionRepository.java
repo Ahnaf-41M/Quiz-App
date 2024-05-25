@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.*;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
-    List<Question> findByTopicId(int topicId);
+    List<Question> findByTestId(int testId);
 }
