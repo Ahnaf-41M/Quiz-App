@@ -1,0 +1,67 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <title>Admin | Dashboard</title>
+
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body style="background-color: #4D869C;">
+        <div th:insert="adminNavbar.html :: navbar"></div>
+
+        <div class="main-container container">
+            <h3 class="mt-1 mb-4 p-2 text-light text-center" style="background-color: #0A6847;">Upcoming
+                Quizes</h3>
+        </div>
+
+        <div class="container mb-3" th:each="test : ${testList}">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card text-center" style="background-color: #F8D082;">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${test.testName}"></h5>
+                            <p class="card-text fst-italic fw-light" th:text="${test.testDescription}">
+                            </p>
+                            <!-- <button type="button" class="btn btn-success"
+                                        formaction="window.location.href='/startQuiz'">Start Quiz</button> -->
+                            <a class="btn btn-success" th:href="@{/admin/deleteQuiz(testId=${test.testId})}">Delete
+                                Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p id="sessionMessage" class="fs-5 text-light text-center">[[${session.msg}]]</p>
+        <!-- Inserting footer -->
+        <div th:insert="footer.html :: footer">
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Select the message element
+                var messageElement = document.getElementById('sessionMessage');
+
+                // Check if the element has content
+                if (messageElement.textContent.trim() !== '') {
+                    // Set a timer to hide the element after 2 seconds (2000 milliseconds)
+                    setTimeout(function () {
+                        messageElement.classList.add('hidden');
+                    }, 2000);
+                }
+            });
+        </script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>
