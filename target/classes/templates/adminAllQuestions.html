@@ -1,0 +1,53 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/quiz.css}">
+        <title>Dashboard</title>
+    </head>
+
+    <body style="background-color: #CDE8E5;">
+        <!-- Importing navbar-->
+        <div th:insert="adminNavbar.html :: navbar"></div>
+
+        <div class="container">
+            <h3 class="mt-1 mb-4 p-2 bg-success text-light text-center">Questions</h3>
+        </div>
+
+        <div class="ques-box mb-3 text-light" th:each="question : ${questionList}" style="background-color: #006769;">
+
+            <h5 class="card-title" th:text="${question.title}"></h5>
+            <div class="option">
+                <input type="radio" th:value="1">
+                <p th:text="${question.optionA}"></p>
+            </div>
+
+            <div class="option">
+                <input type="radio" th:value="2">
+                <p th:text="${question.optionB}"></p>
+            </div>
+
+            <div class="option">
+                <input type="radio" th:value="3">
+                <p th:text="${question.optionC}"></p>
+            </div>
+            <div class="d-inline fw-bold text-warning">Answer: [[${question.ans}]]</div>
+            <div class="text-end">
+                <a class="btn btn-warning btn-sm" th:href="@{/admin/editQuestion(quesId=${question.quesId})}">Edit</a>
+            </div>
+
+        </div>
+
+
+        <!-- Inserting footer -->
+        <div th:insert=" footer.html :: footer">
+        </div>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>

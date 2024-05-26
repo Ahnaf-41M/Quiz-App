@@ -17,7 +17,6 @@
 
 		<div class="container px-4 py-5">
 
-
 			<h1 class="bg-danger text-light">Only Select the Correct Answer</h1>
 			<form th:action="@{/user/submitQuiz(testId=${testId})}" method="POST" th:object="${questionForm}">
 				<!-- (testId=${testId})} -->
@@ -38,17 +37,17 @@
 					<p class="title" th:text="${ques.title}"></p>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="1">
+						<input type="radio" th:name="|questions[${i.index}].chosen|" th:value="1">
 						<p th:text="${ques.optionA}"></p>
 					</div>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="2">
+						<input type="radio" th:name="|questions[${i.index}].chosen|" th:value="2">
 						<p th:text="${ques.optionB}"></p>
 					</div>
 
 					<div class="option">
-						<input type="radio" name="" id="" th:name="|questions[${i.index}].chosen|" th:value="3">
+						<input type="radio" th:name="|questions[${i.index}].chosen|" th:value="3">
 						<p th:text="${ques.optionC}"></p>
 					</div>
 
