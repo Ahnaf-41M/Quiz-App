@@ -10,44 +10,39 @@
 		<link rel="stylesheet" th:href="@{/css/quiz.css}">
 		<title>Quiz Page</title>
 		<script>
-			// function startTimer(duration, display) {
-			// 	var timer = duration, minutes, seconds;
-			// 	var interval = setInterval(function () {
-			// 		minutes = parseInt(timer / 60, 10);
-			// 		seconds = parseInt(timer % 60, 10);
+			function startTimer(duration, display) {
+				var timer = duration, minutes, seconds;
+				var interval = setInterval(function () {
+					minutes = parseInt(timer / 60, 10);
+					seconds = parseInt(timer % 60, 10);
 
-			// 		minutes = minutes < 10 ? "0" + minutes : minutes;
-			// 		seconds = seconds < 10 ? "0" + seconds : seconds;
+					minutes = minutes < 10 ? "0" + minutes : minutes;
+					seconds = seconds < 10 ? "0" + seconds : seconds;
 
-			// 		display.textContent = minutes + ":" + seconds;
+					display.textContent = minutes + ":" + seconds;
 
-			// 		if (--timer < 0) {
-			// 			clearInterval(interval);
-			// 			document.body.innerHTML = "<h1>Time's up!</h1>";
-			// 			// Optionally, you can redirect to another page
-			// 			// window.location.href = "/timeout";
-			// 		}
-			// 	}, 1000);
-			// }
+					if (--timer < 0) {
+						clearInterval(interval);
+						window.location.href = "dashboard";
+						// document.body.innerHTML = "<h1>Time's up!</h1>";
+					} else {
+						sessionStorage.setItem('remainingTime', timer);
+					}
+				}, 1000);
+			}
 
-			// window.onload = function () {
-			// 	var display = document.getElementById('time');
-			// 	var timeLimit = 5 * 60; // 5 minutes in seconds
+			window.onload = function () {
+				var display = document.getElementById('time');
+				var timeLimit = 5 * 60; // 5 minutes in seconds
+				var remainingTime = sessionStorage.getItem('remainingTime');
 
-			// 	if (!localStorage.getItem('startTime')) {
-			// 		localStorage.setItem('startTime', Date.now());
-			// 		localStorage.setItem('endTime', Date.now() + timeLimit * 1000);
-			// 	}
+				if (remainingTime === null) {
+					sessionStorage.setItem('remainingTime', timeLimit);
+					remainingTime = timeLimit;
+				}
 
-			// 	var endTime = localStorage.getItem('endTime');
-			// 	var remainingTime = (endTime - Date.now()) / 1000;
-
-			// 	if (remainingTime <= 0) {
-			// 		document.body.innerHTML = "<h1>Time's up!</h1>";
-			// 	} else {
-			// 		startTimer(remainingTime, display);
-			// 	}
-			// };
+				startTimer(remainingTime, display);
+			};
 		</script>
 	</head>
 
@@ -95,7 +90,7 @@
 				</div>
 				<!-- <h1 th:text="${testId}">[[${testId}]]</h1> -->
 				<div class="text-center">
-					<button type="submit" class="text-center btn btn-warning mx-auto mt-4">Submit</button>
+					<button type="submit" class="text-center btn btn-warning mx-auto mt-4 w-50">Submit</button>
 
 				</div>
 				<!-- (id=${testId}) -->

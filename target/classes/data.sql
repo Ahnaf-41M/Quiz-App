@@ -1,11 +1,11 @@
-insert into users(u_id, role, total_correct, user_id, user_name, user_pass) values (
-	1,
-	"ROLE_ADMIN",
-	0,
-	"41",
-	"Admin_Ahnaf",
-	"$2a$10$QAr7wwW52Pdiei6WYPbU6OPz0QcTVxBS4vLuOGxDPJTrrsFIjYmQe"
-);
+-- insert into users(u_id, role, total_correct, user_id, user_name, user_pass) values (
+-- 	1,
+-- 	"ROLE_ADMIN",
+-- 	0,
+-- 	"41",
+-- 	"Admin_Ahnaf",
+-- 	"$2a$10$QAr7wwW52Pdiei6WYPbU6OPz0QcTVxBS4vLuOGxDPJTrrsFIjYmQe"
+-- );
 
 insert into questions(ques_id, title, optionA, optionB, optionC, ans, chosen, test_id)
 values(
