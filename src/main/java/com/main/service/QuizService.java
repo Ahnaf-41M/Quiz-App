@@ -105,6 +105,10 @@ public class QuizService {
     public String submitQuizService(QuestionForm questionForm, String userId, Model model,
             int quizId) {
 
+        if (resultRepository.existsByUserIdAndQuizId(userId, quizId)) {
+            // model.addAttribute("result", resultRepository.findByUserId(userId));
+            return "redirect:/user/myResult";
+        }
         User userObj = userRepository.findByUserId(userId);
         int totCorrect = getResult(questionForm);
         String quizName = testRepository.findByTestId(quizId).getTestName();
@@ -121,8 +125,8 @@ public class QuizService {
         userRepository.save(userObj);
         resultRepository.save(newResult);
 
-        List<Result> resulList = resultRepository.findByUserId(userObj.getUserId());
-        model.addAttribute("result", resulList);
+        // List<Result> resulList = resultRepository.findByUserId(userObj.getUserId());
+        // model.addAttribute("result", resulList);
         return "redirect:/user/myResult";
     }
 
