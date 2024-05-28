@@ -85,6 +85,37 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
 
+    @GetMapping("/allQuestions")
+    public String allQuestions(Model model) {
+        List<Question> questionList = questionRepository.findAll();
+        List<Test> testList = testRepository.findAll();
+        List<Quiz> quizList = quizRepository.findAll();
+        Set<Integer> quesIdList = new HashSet<>();
+        for (Quiz quiz : quizList) {
+            quesIdList.add(quiz.getQuesId());
+        }
+        model.addAttribute("questionList", questionList);
+        model.addAttribute("testList", testList);
+        model.addAttribute("quesIdList", quesIdList);
+        return "adminAllQuestions";
+    }
+
+    @GetMapping("/addToQuiz")
+    public String addToQuiz(@RequestParam int quizId, @RequestParam int quesId,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("msg", "Question Added to quiz!");
+        System.out.println("addtoQuiz: " + quizId + " " + quesId);
+        if (quizRepository.existsByQuizIdAndQuesId(quizId, quesId)) {
+            System.out.println("***TRUE");
+        }
+        Quiz quiz = new Quiz();
+        quiz.setQuizId(quizId);
+        quiz.setQuesId(quesId);
+        quizRepository.save(quiz);
+
+        return "redirect:/admin/allQuestions";
+    }
+
     @GetMapping("/addQuestion")
     public String addQuestion(Model model) {
         List<Test> testList = testRepository.findAll();
@@ -95,7 +126,7 @@ public class AdminController {
     }
 
     @GetMapping("/editQuestion")
-    public String editQuestion(Model model, @RequestParam int quesId) {
+    public String editQuestion(@RequestParam int quesId, Model model) {
         Question question = questionRepository.findById(quesId).get();
         List<Test> testList = testRepository.findAll();
         model.addAttribute("testList", testList);
@@ -106,20 +137,12 @@ public class AdminController {
     }
 
     @PostMapping("/saveQuestion")
-    public String saveQuestion(@ModelAttribute Question question) {
-        // System.out.println("saveQuestion: "+question);
+    public String saveQuestion(@ModelAttribute Question question,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("msg", "Question Saved!");
         questionRepository.save(question);
         return "redirect:/admin/dashboard";
     }
-
-    @GetMapping("/allQuestions")
-    public String allQuestions(Model model) {
-        List<Question> questionList = questionRepository.findAll();
-        model.addAttribute("questionList", questionList);
-        return "adminAllQuestions";
-    }
-
-
 
     @GetMapping("/deleteQuestion")
     public String deleteQuestion(@RequestParam int quesId, RedirectAttributes redirectAttributes) {

@@ -16,14 +16,10 @@ import lombok.NoArgsConstructor;
 public class Quiz {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
     private int quizId;
     @Column(nullable = false)
     private int quesId;
-    // @Column(nullable = false)
-    // private String quizName;
-    // @Column(nullable = false)
-    // private String quizDescription;
 }

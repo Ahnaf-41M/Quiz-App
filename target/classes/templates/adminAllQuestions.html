@@ -35,28 +35,38 @@
 
         <div class="ques-box mb-3 text-light" th:each="question : ${questionList}" style="background-color: #006769;">
 
-            <h5 class="card-title" th:text="${question.title}"></h5>
-            <div class="option">
-                <input type="radio" th:value="1">
-                <p th:text="${question.optionA}"></p>
-            </div>
+            <div th:each="test : ${testList}" th:if="${test.testId == question.testId}">
+                <h5 class="card-title" th:text="${question.title}"></h5>
+                <div class="option">
+                    <input type="radio" th:value="1">
+                    <p th:text="${question.optionA}"></p>
+                </div>
 
-            <div class="option">
-                <input type="radio" th:value="2">
-                <p th:text="${question.optionB}"></p>
-            </div>
+                <div class="option">
+                    <input type="radio" th:value="2">
+                    <p th:text="${question.optionB}"></p>
+                </div>
 
-            <div class="option">
-                <input type="radio" th:value="3">
-                <p th:text="${question.optionC}"></p>
-            </div>
-            <div class="d-inline fw-bold text-warning">Answer: [[${question.ans}]]</div>
-            <div class="text-end">
-                <a class="btn btn-danger btn-sm" th:href="@{/admin/deleteQuestion(quesId=${question.quesId})}"
-                    onclick="return confirm('Are you sure?')">Delete</a>
-                <a class="btn btn-warning btn-sm" th:href="@{/admin/editQuestion(quesId=${question.quesId})}">Edit</a>
-            </div>
+                <div class="option">
+                    <input type="radio" th:value="3">
+                    <p th:text="${question.optionC}"></p>
+                </div>
+                <div class="fw-bold"><span class="text-warning">Answer:</span> <span>[[${question.ans}]]</span></div>
+                <div class="fw-bold"><span class="text-warning">Type:</span> <span>[[${test.testName}]]</span></div>
+                <div class="text-end">
+                    <span th:if="${!quesIdList.contains(question.quesId)}">
+                        <a class="btn btn-success btn-sm"
+                            th:href="@{/admin/addToQuiz(quizId=${test.testId},quesId=${question.quesId})}"
+                            onclick="return confirm('Are you sure?')">Add to Quiz</a>
+                    </span>
 
+                    <a class="btn btn-danger btn-sm" th:href="@{/admin/deleteQuestion(quesId=${question.quesId})}"
+                        onclick="return confirm('Are you sure?')">Delete</a>
+                    <a class="btn btn-warning btn-sm"
+                        th:href="@{/admin/editQuestion(quesId=${question.quesId})}">Edit</a>
+                </div>
+
+            </div>
         </div>
 
         <!-- Inserting footer -->

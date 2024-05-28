@@ -9,6 +9,8 @@ import com.main.model.Quiz;
 public interface QuizRepository extends JpaRepository<Quiz, Integer> {
     boolean existsByQuizId(int quizId);
 
+    boolean existsByQuizIdAndQuesId(int quizId, int quesId);
+
     List<Quiz> findByQuizId(int quizId);
 
     Quiz findByQuizIdAndQuesId(int quizId, int quesId);
