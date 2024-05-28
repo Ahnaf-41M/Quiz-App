@@ -1,21 +1,36 @@
-# Quiz-App
-
 ## Signup Page
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/8f86a4df-8524-4a0b-958e-327d05d098c5)
 
 ## Login Page
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/ebee4039-6c49-433a-ab54-ef655bedb12a)
 
-## Dashboard
-![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/e4453d98-72e1-41fd-b4b7-f7b607e7b81f)
+## **Admin Panel**
+#### Dashboard
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/77bbd7b3-384e-4252-a3f9-88fc91bf4cae)
 
-## Quiz Page
-![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/0f47ebe6-bbc0-4828-8b77-42ea003728d1)
+#### Edit Quiz
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/aa8ece89-0568-4f66-951f-db58d74e78b4)
 
-## My Results Page
+#### All Questions
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/155d0763-534e-4ae8-b07c-8b05b458f1bd)
+
+#### Edit Question
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/fbc63987-704b-47aa-acca-7437b9272519)
+
+#### Add Question
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/4ed8c239-14b5-4e7a-9648-d421086866e4)
+
+## **User Panel**
+#### Dashboard
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/3060e560-7527-47ba-bbb1-0fe7aaee2081)
+
+#### Quiz Page
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/1778eb91-6ad6-450b-8df0-eb9a8bb25150)
+
+#### My Results
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/ca32db9c-b2a8-4d83-bd0e-9f1be8766fd7)
 
-## Top Scorers Page
+#### Top Scorers
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/dbd78497-4762-4052-a512-4da41515fd3f)
 
 
