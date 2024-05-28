@@ -2,8 +2,10 @@ package com.main.service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.main.model.Question;
 import com.main.model.QuestionForm;
+import com.main.model.Quiz;
 import com.main.model.Result;
 import com.main.model.Test;
 import com.main.model.User;
@@ -42,17 +45,12 @@ public class QuizService {
     @Autowired
     TestRepository testRepository;
 
-    public QuestionForm getQuestions(int testId) {
-        List<Question> allQues = questionRepository.findByTestId(testId);
+    public QuestionForm getQuestions(int quizId) {
+        List<Quiz> quizList = quizRepository.findByQuizId(quizId);
         List<Question> qList = new ArrayList<Question>();
-        int totQues = allQues.size();
 
-        Random rand = new Random();
-
-        for (int i = 0; i < Math.min(5, totQues); i++) {
-            int ind = rand.nextInt(allQues.size());
-            qList.add(allQues.get(ind));
-            allQues.remove(ind);
+        for (Quiz quiz : quizList) {
+            qList.add(questionRepository.findByQuesId(quiz.getQuesId()));
         }
         questionForm.setQuestions(qList);
         return questionForm;
@@ -94,29 +92,31 @@ public class QuizService {
         }
     }
 
-    public String startQuizService(User userObj, Model model, RedirectAttributes ra, int testId) {
-        questionForm = getQuestions(testId);
+    public String startQuizService(User userObj, Model model, RedirectAttributes ra, int quizId) {
+        questionForm = getQuestions(quizId);
         model.addAttribute("questionForm", questionForm);
         model.addAttribute("userObj", userObj);
-        model.addAttribute("testName", testRepository.findByTestId(testId).getTestName());
-        model.addAttribute("testId", testId);
+        model.addAttribute("quizName", testRepository.findByTestId(quizId).getTestName());
+        model.addAttribute("quizId", quizId);
 
         System.out.println("*****startQuizService: " + userObj);
         return "quiz";
     }
 
     public String submitQuizService(QuestionForm questionForm, String userId, Model model,
-            int testId) {
+            int quizId) {
 
         User userObj = userRepository.findByUserId(userId);
         int totCorrect = getResult(questionForm);
+        String quizName = testRepository.findByTestId(quizId).getTestName();
 
         Result newResult = new Result();
         userObj.setTotalCorrect(totCorrect);
         newResult.setUserId(userObj.getUserId());
         newResult.setUserName(userObj.getUserName());
-        newResult.setTestId(testId);
-        newResult.setTestName(testRepository.findByTestId(testId).getTestName());
+        newResult.setQuizId(quizId);
+        newResult.setQuizName(quizName);
+        newResult.setTotalQuestions(questionForm.getQuestions().size());
         newResult.setTotalCorrect(userObj.getTotalCorrect());
 
         userRepository.save(userObj);
@@ -145,14 +145,21 @@ public class QuizService {
     }
 
     public String dashboardService(Model model, Principal principal) {
-        List<Test> testList = new ArrayList<>();
-        List<Test> allTests = testRepository.findAll();
+        List<Quiz> allQuiz = quizRepository.findAll();
+        List<Quiz> quizList = new ArrayList<>();
+        Set<Integer> quizIds = new HashSet<>();
+        List<Test> testList = testRepository.findAll();
 
-        for (Test cur : allTests) {
-            if (!resultRepository.existsByUserIdAndTestId(principal.getName(), cur.getTestId())) {
-                testList.add(cur);
+        for (Quiz quiz : allQuiz) {
+            if (!resultRepository.existsByUserIdAndQuizId(principal.getName(), quiz.getQuizId())) {
+                if (!quizIds.contains(quiz.getQuizId())) {
+                    quizList.add(quiz);
+                    quizIds.add(quiz.getQuizId());
+                }
             }
         }
+
+        model.addAttribute("quizList", quizList);
         model.addAttribute("testList", testList);
         return "dashboard";
     }

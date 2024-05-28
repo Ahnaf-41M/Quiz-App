@@ -27,9 +27,9 @@
 				</tr>
 
 				<tr th:each="result : ${resultList}">
-					<td th:text="${result.testName}"></td>
+					<td th:text="${result.quizName}"></td>
 					<td th:text="${result.totalCorrect}"></td>
-					<td th:text="5 - ${result.totalCorrect}"></td>
+					<td th:text="${result.totalQuestions} - ${result.totalCorrect}"></td>
 				</tr>
 			</table>
 		</div>

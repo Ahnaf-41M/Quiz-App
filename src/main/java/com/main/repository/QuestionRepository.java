@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findByTestId(int testId);
+
+    Question findByQuesId(int quesId);
 }

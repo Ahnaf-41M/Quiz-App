@@ -272,14 +272,50 @@ values(
 	3
 );
 
-insert into quiz(quiz_id, quiz_description, test_id) values (
+
+insert into quiz(id, quiz_id, ques_id) values (
 	1,
-	"This quiz covers a broad range of topics, from basic syntax and concepts to advanced features and techniques, ensuring a comprehensive assessment of your Java programming skills.",
-	1
+	1,
+	2
 );
-insert into quiz(quiz_id, quiz_description, test_id) values (
+insert into quiz(id, quiz_id, ques_id) values (
 	2,
-	"This quiz covers a broad range of topics, from basic syntax and concepts to advanced features and techniques, ensuring a comprehensive assessment of your C++ programming skills.",
+	1,
+	3
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	3,
+	2,
+	11
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	4,
+	2,
+	12
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	5,
+	2,
+	13
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	6,
+	3,
+	19
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	7,
+	3,
+	20
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	8,
+	3,
+	21
+);
+insert into quiz(id, quiz_id, ques_id) values (
+	9,
+	1,
 	1
 );
 

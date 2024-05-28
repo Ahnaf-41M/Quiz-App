@@ -26,8 +26,9 @@ public class Result {
 	@Column(nullable = false)
 	private String userName;
 	@Column(nullable = false)
-	private int testId;
+	private int quizId;
 	@Column(nullable = false)
-	private String testName;
+	private String quizName;
+	private int totalQuestions = 0;
 	private int totalCorrect = 0;
 }

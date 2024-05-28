@@ -8,11 +8,18 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
         <title>Admin | Dashboard</title>
 
-        <style>
-            .hidden {
-                display: none;
+        <script>
+            // Code to hide the message after two seconds
+            function hideMessage() {
+                var msg = document.getElementById("flashMessage");
+                if (msg) {
+                    setTimeout(function () {
+                        msg.style.display = "none";
+                    }, 2000);
+                }
             }
-        </style>
+            window.onload = hideMessage;
+        </script>
     </head>
 
     <body style="background-color: #4D869C;">
@@ -22,41 +29,29 @@
             <h3 class="mt-1 mb-4 p-2 text-light text-center" style="background-color: #0A6847;">Upcoming
                 Quizes</h3>
         </div>
+        <p class="text-center text-danger fw-bold" id="flashMessage" th:if="${msg}" th:text="${msg}"></p>
 
         <div class="container mb-3" th:each="test : ${testList}">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card text-center" style="background-color: #F8D082;">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${test.testName}"></h5>
-                            <p class="card-text fst-italic fw-light" th:text="${test.testDescription}">
-                            </p>
-                            <!-- <button type="button" class="btn btn-success"
-                                        formaction="window.location.href='/startQuiz'">Start Quiz</button> -->
-                            <a class="btn btn-success" th:href="@{/admin/deleteQuiz(testId=${test.testId})}">Delete
-                                Quiz</a>
-                        </div>
-                    </div>
+
+            <div class="card text-center" style="background-color: #F8D082;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${test.testName}"></h5>
+                    <p class="card-text fst-italic fw-light" th:text="${test.testDescription}">
+                    </p>
+
+                    <a class="btn btn-success" th:href="@{/admin/editQuiz(quizId=${test.testId})}">Edit
+                        Quiz</a>
+                    <a class="btn btn-danger" th:href="@{/admin/deleteQuiz(quizId=${test.testId})}"
+                        onclick="return confirm('Are you sure?')">Delete
+                        Quiz</a>
                 </div>
             </div>
-
         </div>
-        <p id="sessionMessage" class="fs-5 text-light text-center">[[${session.msg}]]</p>
+
         <!-- Inserting footer -->
         <div th:insert="footer.html :: footer">
         </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var messageElement = document.getElementById('sessionMessage');
-                if (messageElement.textContent.trim() !== '') {
-                    // Set a timer to hide the element after 2 seconds (2000 milliseconds)
-                    setTimeout(function () {
-                        messageElement.classList.add('hidden');
-                    }, 2000);
-                }
-            });
-        </script>
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     </body>

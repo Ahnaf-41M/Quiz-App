@@ -41,9 +41,9 @@ public class UserController {
 
     @GetMapping("/startQuiz")
     public String startQuiz(Principal principal, Model model, RedirectAttributes ra,
-            @RequestParam int testId) {
-        System.out.println("****test ID: " + testId);
-        return quizService.loginService(principal, model, ra, testId);
+            @RequestParam int quizId) {
+        System.out.println("****test ID: " + quizId);
+        return quizService.loginService(principal, model, ra, quizId);
     }
 
     @GetMapping("/dashboard")
@@ -63,9 +63,9 @@ public class UserController {
     }
 
     @PostMapping("/submitQuiz")
-    public String submitQuiz(@ModelAttribute QuestionForm questionForm, @RequestParam int testId,
+    public String submitQuiz(@ModelAttribute QuestionForm questionForm, @RequestParam int quizId,
             Principal principal, Model model) {
-        return quizService.submitQuizService(questionForm, principal.getName(), model, testId);
+        return quizService.submitQuizService(questionForm, principal.getName(), model, quizId);
     }
 
     @GetMapping("/topScores")

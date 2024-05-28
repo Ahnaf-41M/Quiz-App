@@ -1,6 +1,10 @@
 package com.main.controller;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.main.model.Question;
+import com.main.model.QuestionForm;
+import com.main.model.Quiz;
 import com.main.model.Test;
 import com.main.repository.QuestionRepository;
+import com.main.repository.QuizRepository;
 import com.main.repository.TestRepository;
 
 @Controller
@@ -28,11 +35,54 @@ public class AdminController {
     @Autowired
     QuestionRepository questionRepository;
 
+    @Autowired
+    QuizRepository quizRepository;
+
     @GetMapping("/dashboard")
-    public String admin(Model model) {
-        List<Test> testList = testRepository.findAll();
+    public String admin(Model model, Principal principal) {
+        List<Quiz> quizList = new ArrayList<>();
+        List<Test> allTest = testRepository.findAll();
+        List<Test> testList = new ArrayList<>();
+
+        for (Test test : allTest) {
+            if (quizRepository.existsByQuizId(test.getTestId())) {
+                testList.add(test);
+                for (Quiz quiz : quizRepository.findByQuizId(test.getTestId())) {
+                    quizList.add(quiz);
+                }
+            }
+        }
+
+        model.addAttribute("quizList", quizList);
         model.addAttribute("testList", testList);
         return "adminDashboard";
+    }
+
+    @GetMapping("/editQuiz")
+    public String editQuiz(@RequestParam int quizId, Model model) {
+        List<Quiz> quizList = quizRepository.findByQuizId(quizId);
+        List<Question> questionList = new ArrayList<>();
+        QuestionForm questionForm = new QuestionForm();
+        for (Quiz quiz : quizList) {
+            questionList.add(questionRepository.findByQuesId(quiz.getQuesId()));
+        }
+        questionForm.setQuestions(questionList);
+        model.addAttribute("quizName", testRepository.findByTestId(quizId).getTestName());
+        model.addAttribute("quizId", quizId);
+        model.addAttribute("questionList", questionList);
+        model.addAttribute("questionForm", questionForm);
+        return "adminEditQuiz";
+    }
+
+    @GetMapping("/deleteQuiz")
+    public String deleteQuiz(@RequestParam int quizId, RedirectAttributes redirectAttributes) {
+        List<Quiz> quizList = quizRepository.findByQuizId(quizId);
+        for (Quiz quiz : quizList) {
+            System.out.println("delete " + quiz);
+            quizRepository.delete(quiz);
+        }
+        redirectAttributes.addFlashAttribute("msg", "Quiz Deleted");
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/addQuestion")
@@ -62,19 +112,32 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
 
-    @GetMapping("/deleteQuiz")
-    public String deleteQuiz(@RequestParam int testId, HttpSession session) {
-        Test test = testRepository.findByTestId(testId);
-        System.out.println(test);
-        testRepository.delete(test);
-        session.setAttribute("msg", "Quiz has been deleted!");
-        return "redirect:/admin/dashboard";
-    }
-
     @GetMapping("/allQuestions")
     public String allQuestions(Model model) {
         List<Question> questionList = questionRepository.findAll();
         model.addAttribute("questionList", questionList);
         return "adminAllQuestions";
+    }
+
+
+
+    @GetMapping("/deleteQuestion")
+    public String deleteQuestion(@RequestParam int quesId, RedirectAttributes redirectAttributes) {
+        questionRepository.delete(questionRepository.findByQuesId(quesId));
+        redirectAttributes.addFlashAttribute("msg", "Question Deleted!");
+        return "redirect:/admin/allQuestions";
+    }
+
+    @GetMapping("/deleteQuizQuestion")
+    public String deleteQuizQuestion(@RequestParam int quizId, @RequestParam int quesId,
+            HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+        // System.out.println(quizId + " " + quesId);
+        Quiz quiz = quizRepository.findByQuizIdAndQuesId(quizId, quesId);
+        quizRepository.delete(quiz);
+
+        System.out.println("delete quiz ques: " + quiz);
+        redirectAttributes.addFlashAttribute("msg", "Question Deleted!");
+        redirectAttributes.addAttribute("quizId", quizId);
+        return "redirect:/admin/editQuiz";
     }
 }

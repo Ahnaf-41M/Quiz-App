@@ -31,8 +31,8 @@
 					<th>Correct Answers</th>
 				</tr>
 				<tr th:each="result : ${topResults}">
-					<td th:if="${test.testName == result.testName}" th:text="${result.userName}"></td>
-					<td th:if="${test.testName == result.testName}" th:text="${result.totalCorrect}"></td>
+					<td th:if="${test.testName == result.quizName}" th:text="${result.userName}"></td>
+					<td th:if="${test.testName == result.quizName}" th:text="${result.totalCorrect}"></td>
 				</tr>
 			</table>
 		</div>

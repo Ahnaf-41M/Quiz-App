@@ -18,16 +18,18 @@
         </div>
 
         <div class="container mb-3" th:each="test : ${testList}">
-            <div class="row">
-                <div class="col-12">
+            <div class="row" th:each="quiz : ${quizList}">
+                <div class="col-12" th:if="${test.testId == quiz.quizId}">
                     <div class="card text-center text-light" style="background-color: #006769;">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${test.testName}"></h5>
+                            <h5 class="card-title" th:text="${test.testName}">
+                            </h5>
                             <p class="card-text fst-italic fw-light" th:text="${test.testDescription}">
                             </p>
                             <!-- <button type="button" class="btn btn-success"
                                 formaction="window.location.href='/startQuiz'">Start Quiz</button> -->
-                            <a class="btn btn-success" th:href="@{/user/startQuiz(testId=${test.testId})}">Start
+                            <a target="_blank" class="btn btn-success"
+                                th:href="@{/user/startQuiz(quizId=${quiz.quizId})}">Start
                                 Quiz</a>
                         </div>
                     </div>

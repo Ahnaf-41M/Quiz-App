@@ -7,7 +7,19 @@
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" th:href="@{/css/quiz.css}">
-        <title>Dashboard</title>
+        <title>Admin | All Questions</title>
+        <script>
+            // Code to hide the message after two seconds
+            function hideMessage() {
+                var msg = document.getElementById("flashMessage");
+                if (msg) {
+                    setTimeout(function () {
+                        msg.style.display = "none";
+                    }, 2000);
+                }
+            }
+            window.onload = hideMessage;
+        </script>
     </head>
 
     <body style="background-color: #CDE8E5;">
@@ -15,8 +27,11 @@
         <div th:insert="adminNavbar.html :: navbar"></div>
 
         <div class="container">
-            <h3 class="mt-1 mb-4 p-2 bg-success text-light text-center">Questions</h3>
+            <h3 class="mt-1 mb-4 p-2 bg-success text-light text-center">All Questions</h3>
         </div>
+
+        <!-- Display the flash message -->
+        <p class="text-center text-danger fw-bold" id="flashMessage" th:if="${msg}" th:text="${msg}"></p>
 
         <div class="ques-box mb-3 text-light" th:each="question : ${questionList}" style="background-color: #006769;">
 
@@ -37,11 +52,12 @@
             </div>
             <div class="d-inline fw-bold text-warning">Answer: [[${question.ans}]]</div>
             <div class="text-end">
+                <a class="btn btn-danger btn-sm" th:href="@{/admin/deleteQuestion(quesId=${question.quesId})}"
+                    onclick="return confirm('Are you sure?')">Delete</a>
                 <a class="btn btn-warning btn-sm" th:href="@{/admin/editQuestion(quesId=${question.quesId})}">Edit</a>
             </div>
 
         </div>
-
 
         <!-- Inserting footer -->
         <div th:insert=" footer.html :: footer">
