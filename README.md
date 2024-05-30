@@ -1,3 +1,9 @@
+# Features
+- Fully Functional Admin Panel
+- Standard UI
+- Admin can create new quiz, edit and delete existing quiz
+- Admin can add questions to quiz, create, update and delete questions
+- User can participate in quizes, see own results and also top scores off all time
 ## Signup Page
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/8f86a4df-8524-4a0b-958e-327d05d098c5)
 
