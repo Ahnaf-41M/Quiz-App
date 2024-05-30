@@ -56,8 +56,13 @@ public class AdminController {
 
     @PostMapping("/saveQuiz")
     public String saveQuiz(@ModelAttribute Test test, RedirectAttributes redirectAttributes) {
-        adminService.saveQuizService(test, redirectAttributes);
-        return "redirect:/admin/dashboard";
+        if (testRepository.existsByTestName(test.getTestName())) {
+            redirectAttributes.addFlashAttribute("msg", "Quiz name exists!");
+            return "redirect:/admin/createQuiz";
+        } else {
+            adminService.saveQuizService(test, redirectAttributes);
+            return "redirect:/admin/dashboard";
+        }
     }
 
     @GetMapping("/deleteQuiz")

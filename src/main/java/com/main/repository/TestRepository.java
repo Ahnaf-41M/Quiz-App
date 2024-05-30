@@ -7,4 +7,6 @@ import com.main.model.Test;
 @Repository
 public interface TestRepository extends JpaRepository<Test, Integer> {
     Test findByTestId(int testId);
+
+    boolean existsByTestName(String testName);
 }
