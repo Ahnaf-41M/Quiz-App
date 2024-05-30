@@ -43,6 +43,7 @@ public class AdminService {
     @Autowired
     TestRepository testRepository;
 
+    /* Dashboard */
     public void dashboardService(Model model, Principal principal) {
         List<Quiz> quizList = new ArrayList<>();
         List<Test> allTest = testRepository.findAll();
@@ -56,11 +57,11 @@ public class AdminService {
                 }
             }
         }
-
         model.addAttribute("quizList", quizList);
         model.addAttribute("testList", allTest);
     }
 
+    /* Quiz Part */
     public void createQuizService(Model model) {
         model.addAttribute("test", new Test());
     }
@@ -85,7 +86,6 @@ public class AdminService {
         redirectAttributes.addFlashAttribute("msg", "Quiz added successfully!");
     }
 
-
     public void deleteQuizService(int quizId, RedirectAttributes redirectAttributes) {
         List<Quiz> quizList = quizRepository.findByQuizId(quizId);
         for (Quiz quiz : quizList) {
@@ -95,9 +95,10 @@ public class AdminService {
         redirectAttributes.addFlashAttribute("msg", "Quiz deleted successfully!");
     }
 
-    public void adminQuizQuestionsService(int quizId, Model model, HttpSession session,
-            String msg) {
-        List<Question> questionList = questionRepository.findByTestId(quizId);
+    /* Question Part */
+
+    public void allQuestionsService(Model model) {
+        List<Question> questionList = questionRepository.findAll();
         List<Test> testList = testRepository.findAll();
         List<Quiz> quizList = quizRepository.findAll();
         Set<Integer> quesIdList = new HashSet<>();
@@ -107,9 +108,6 @@ public class AdminService {
         model.addAttribute("questionList", questionList);
         model.addAttribute("testList", testList);
         model.addAttribute("quesIdList", quesIdList);
-        model.addAttribute("quizName", testRepository.findByTestId(quizId).getTestName());
-        // session.setAttribute("msg", msg);
-
     }
 
     public void addQuestionService(Model model) {
@@ -141,8 +139,10 @@ public class AdminService {
         redirectAttributes.addFlashAttribute("msg", "Question Deleted!");
     }
 
-    public void allQuestionsService(Model model) {
-        List<Question> questionList = questionRepository.findAll();
+    /* Quiz Question Part */
+    public void adminQuizQuestionsService(int quizId, Model model, HttpSession session,
+            String msg) {
+        List<Question> questionList = questionRepository.findByTestId(quizId);
         List<Test> testList = testRepository.findAll();
         List<Quiz> quizList = quizRepository.findAll();
         Set<Integer> quesIdList = new HashSet<>();
@@ -152,6 +152,9 @@ public class AdminService {
         model.addAttribute("questionList", questionList);
         model.addAttribute("testList", testList);
         model.addAttribute("quesIdList", quesIdList);
+        model.addAttribute("quizName", testRepository.findByTestId(quizId).getTestName());
+        // session.setAttribute("msg", msg);
+
     }
 
     public void addQuestionToQuizService(int quizId, int quesId,
@@ -165,7 +168,7 @@ public class AdminService {
         redirectAttributes.addFlashAttribute("msg", msg);
     }
 
-    public void removeQuizQuesService(int quizId, int quesId,
+    public void removeQuizQuestionService(int quizId, int quesId,
             RedirectAttributes redirectAttributes) {
         if (quizRepository.existsByQuizIdAndQuesId(quizId, quesId)) {
             quizRepository.delete(quizRepository.findByQuizIdAndQuesId(quizId, quesId));

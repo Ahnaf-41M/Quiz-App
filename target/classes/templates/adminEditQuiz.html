@@ -73,7 +73,7 @@
                     <!-- <div th:text="'quizId: ' + ${session.quizId} + ', quesId: ' + ${ques.quesId}"></div> -->
                     <div class="text-end">
                         <a class="btn btn-danger btn-sm mx-auto mt-4"
-                            th:href="@{/admin/removeQuizQues(quizId=${quizId},quesId=${ques.quesId})}"
+                            th:href="@{/admin/removeQuizQuestion(quizId=${quizId},quesId=${ques.quesId})}"
                             onclick="return confirm('Are you sure?')">Remove Question</a>
                     </div>
                 </div>
