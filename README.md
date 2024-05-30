@@ -1,4 +1,4 @@
-# Features
+# Quiz App - Features
 - Fully Functional Admin Panel
 - Standard UI
 - Admin can create new quiz, edit and delete existing quiz
