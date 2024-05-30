@@ -29,7 +29,7 @@
             <h3 class="mt-1 mb-4 p-2 text-light text-center" style="background-color: #0A6847;">Upcoming
                 Quizes</h3>
         </div>
-        <p class="text-center text-danger fw-bold" id="flashMessage" th:if="${msg}" th:text="${msg}"></p>
+        <p class="text-center text-light fw-bold" id="flashMessage" th:if="${msg}" th:text="${msg}"></p>
 
         <div class="container mb-3" th:each="test : ${testList}">
 

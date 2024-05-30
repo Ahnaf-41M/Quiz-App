@@ -57,7 +57,7 @@
                 <div class="text-end">
                     <span th:if="${!quesIdList.contains(question.quesId)}">
                         <a class="btn btn-success btn-sm"
-                            th:href="@{/admin/addQuestionToQuiz(quizId=${test.testId},quesId=${question.quesId})}"
+                            th:href="@{/admin/addQuestionToQuizFromQuiz(quizId=${test.testId},quesId=${question.quesId})}"
                             onclick="return confirm('Are you sure?')">Add to Quiz</a>
                     </span>
 

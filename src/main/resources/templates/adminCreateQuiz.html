@@ -14,7 +14,9 @@
 
 
         <div class="container text-center" style="padding: 0% 0% 0% 5%;">
-            <div class="text-center text-light bg-danger mt-2 p-3 mb-2 fs-4 fw-bold">Provide Quiz Information</div>
+            <div class="text-center text-light bg-danger mt-2 p-3 mb-2 fs-4 fw-bold">
+                Provide Quiz Information
+            </div>
             <form th:action="@{/admin/saveQuiz}" th:object="${test}" method="post">
 
                 <div class="mb-3 row">
@@ -26,12 +28,11 @@
                 <div class="mb-3 row">
                     <label class="col-sm-2 col-form-label fs-5 fw-bold text-end">Quiz Description</label>
                     <div class="col-sm-8">
-                        <textarea th:field="${test.testDescription}" class="form-control" rows="6"></textarea>
-                        <!-- <input  type="text" class="form-control" required> -->
+                        <textarea th:field="${test.testDescription}" class="form-control" rows="10" required></textarea>
                     </div>
                 </div>
 
-                <button class="btn btn-outline-success" type="submit">Save</button>
+                <button class="btn btn-outline-success w-50" type="submit">Save</button>
 
             </form>
         </div>

@@ -43,7 +43,7 @@ public class AdminService {
     @Autowired
     TestRepository testRepository;
 
-    public String dashboardService(Model model, Principal principal) {
+    public void dashboardService(Model model, Principal principal) {
         List<Quiz> quizList = new ArrayList<>();
         List<Test> allTest = testRepository.findAll();
         List<Test> testList = new ArrayList<>();
@@ -59,21 +59,13 @@ public class AdminService {
 
         model.addAttribute("quizList", quizList);
         model.addAttribute("testList", allTest);
-        return "adminDashboard";
     }
 
-    public String createQuizService(Model model) {
+    public void createQuizService(Model model) {
         model.addAttribute("test", new Test());
-        return "adminCreateQuiz";
     }
 
-    public String saveQuizService(Test test, RedirectAttributes redirectAttributes) {
-        testRepository.save(test);
-        redirectAttributes.addFlashAttribute("msg", "Quiz added successfully!");
-        return "redirect:/admin/dashboard";
-    }
-
-    public String editQuizService(int quizId, Model model) {
+    public void editQuizService(int quizId, Model model) {
         System.out.println("********Editquiz: " + quizId);
         List<Quiz> quizList = quizRepository.findByQuizId(quizId);
         List<Question> questionList = new ArrayList<>();
@@ -86,20 +78,24 @@ public class AdminService {
         model.addAttribute("quizId", quizId);
         model.addAttribute("questionList", questionList);
         model.addAttribute("questionForm", questionForm);
-        return "adminEditQuiz";
     }
 
-    public String deleteQuizService(int quizId, RedirectAttributes redirectAttributes) {
+    public void saveQuizService(Test test, RedirectAttributes redirectAttributes) {
+        testRepository.save(test);
+        redirectAttributes.addFlashAttribute("msg", "Quiz added successfully!");
+    }
+
+
+    public void deleteQuizService(int quizId, RedirectAttributes redirectAttributes) {
         List<Quiz> quizList = quizRepository.findByQuizId(quizId);
         for (Quiz quiz : quizList) {
             quizRepository.delete(quiz);
         }
         testRepository.delete(testRepository.findByTestId(quizId));
         redirectAttributes.addFlashAttribute("msg", "Quiz deleted successfully!");
-        return "redirect:/admin/dashboard";
     }
 
-    public String adminQuizQuestionsService(int quizId, Model model, HttpSession session,
+    public void adminQuizQuestionsService(int quizId, Model model, HttpSession session,
             String msg) {
         List<Question> questionList = questionRepository.findByTestId(quizId);
         List<Test> testList = testRepository.findAll();
@@ -113,15 +109,14 @@ public class AdminService {
         model.addAttribute("quesIdList", quesIdList);
         model.addAttribute("quizName", testRepository.findByTestId(quizId).getTestName());
         // session.setAttribute("msg", msg);
-        return "adminQuizQuestions";
+
     }
 
-    public String addQuestionService(Model model) {
+    public void addQuestionService(Model model) {
         List<Test> testList = testRepository.findAll();
         model.addAttribute("testList", testList);
         model.addAttribute("question", new Question());
         model.addAttribute("questionPageTitle", "Add Question");
-        return "adminQuestion";
     }
 
     public void editQuestionService(int quesId, Model model) {
@@ -146,7 +141,7 @@ public class AdminService {
         redirectAttributes.addFlashAttribute("msg", "Question Deleted!");
     }
 
-    public String allQuestionsService(Model model) {
+    public void allQuestionsService(Model model) {
         List<Question> questionList = questionRepository.findAll();
         List<Test> testList = testRepository.findAll();
         List<Quiz> quizList = quizRepository.findAll();
@@ -157,10 +152,9 @@ public class AdminService {
         model.addAttribute("questionList", questionList);
         model.addAttribute("testList", testList);
         model.addAttribute("quesIdList", quesIdList);
-        return "adminAllQuestions";
     }
 
-    public String addQuestionToQuizService(int quizId, int quesId,
+    public void addQuestionToQuizService(int quizId, int quesId,
             RedirectAttributes redirectAttributes) {
         // System.out.println("addtoQuiz: " + quizId + " " + quesId);
         Quiz quiz = new Quiz();
@@ -169,7 +163,6 @@ public class AdminService {
         quizRepository.save(quiz);
         String msg = "Question added to quiz!";
         redirectAttributes.addFlashAttribute("msg", msg);
-        return "redirect:/admin/quizQuestions?quizId=" + quizId;
     }
 
     public void removeQuizQuesService(int quizId, int quesId,

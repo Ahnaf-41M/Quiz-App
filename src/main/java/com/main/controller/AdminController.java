@@ -36,48 +36,64 @@ public class AdminController {
 
     @GetMapping("/dashboard")
     public String admin(Model model, Principal principal) {
-        return adminService.dashboardService(model, principal);
-    }
-
-    @GetMapping("/editQuiz")
-    public String editQuiz(@RequestParam int quizId, Model model) {
-        return adminService.editQuizService(quizId, model);
-    }
-
-    @GetMapping("/deleteQuiz")
-    public String deleteQuiz(@RequestParam int quizId, RedirectAttributes redirectAttributes) {
-        return adminService.deleteQuizService(quizId, redirectAttributes);
+        adminService.dashboardService(model, principal);
+        return "adminDashboard";
     }
 
     @GetMapping("/createQuiz")
     public String createQuiz(Model model) {
-        return adminService.createQuizService(model);
+        adminService.createQuizService(model);
+        return "adminCreateQuiz";
+    }
+
+    @GetMapping("/editQuiz")
+    public String editQuiz(@RequestParam int quizId, Model model) {
+        adminService.editQuizService(quizId, model);
+        return "adminEditQuiz";
     }
 
     @PostMapping("/saveQuiz")
     public String saveQuiz(@ModelAttribute Test test, RedirectAttributes redirectAttributes) {
-        return adminService.saveQuizService(test, redirectAttributes);
+        adminService.saveQuizService(test, redirectAttributes);
+        return "redirect:/admin/dashboard";
+    }
+
+    @GetMapping("/deleteQuiz")
+    public String deleteQuiz(@RequestParam int quizId, RedirectAttributes redirectAttributes) {
+        adminService.deleteQuizService(quizId, redirectAttributes);
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/addQuestion")
     public String addQuestion(Model model) {
-        return adminService.addQuestionService(model);
+        adminService.addQuestionService(model);
+        return "adminQuestion";
     }
 
     @GetMapping("/quizQuestions")
     public String quizQuestions(@RequestParam int quizId, Model model, HttpSession session) {
-        return adminService.adminQuizQuestionsService(quizId, model, session, "");
+        adminService.adminQuizQuestionsService(quizId, model, session, "");
+        return "adminQuizQuestions";
     }
 
     @GetMapping("/addQuestionToQuiz")
     public String addQuestionToQuiz(@RequestParam int quizId, @RequestParam int quesId,
             RedirectAttributes redirectAttributes) {
-        return adminService.addQuestionToQuizService(quizId, quesId, redirectAttributes);
+        adminService.addQuestionToQuizService(quizId, quesId, redirectAttributes);
+        return "redirect:/admin/allQuestions";
+    }
+
+    @GetMapping("/addQuestionToQuizFromQuiz")
+    public String addQuestionToQuizFromQuiz(@RequestParam int quizId, @RequestParam int quesId,
+            RedirectAttributes redirectAttributes) {
+        adminService.addQuestionToQuizService(quizId, quesId, redirectAttributes);
+        return "redirect:/admin/quizQuestions?quizId=" + quizId;
     }
 
     @GetMapping("/allQuestions")
     public String allQuestions(Model model) {
-        return adminService.allQuestionsService(model);
+        adminService.allQuestionsService(model);
+        return "adminAllQuestions";
     }
 
     @GetMapping("/editQuestion")
