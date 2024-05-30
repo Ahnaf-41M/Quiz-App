@@ -8,6 +8,9 @@
 #### Dashboard
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/77bbd7b3-384e-4252-a3f9-88fc91bf4cae)
 
+#### Create Quiz
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/b2fdd506-d573-456b-83bb-8fbf54eb007d)
+
 #### Edit Quiz
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/a5deeca9-b73f-4909-b3dc-a7807699cb2d)
 
@@ -18,10 +21,10 @@
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/155d0763-534e-4ae8-b07c-8b05b458f1bd)
 
 #### Edit Question
-![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/fbc63987-704b-47aa-acca-7437b9272519)
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/42d75c3a-fc56-4990-90a5-1bba2d83edc5)
 
 #### Add Question
-![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/4ed8c239-14b5-4e7a-9648-d421086866e4)
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/3134e4c0-68e8-452b-ae5c-6fba4f06bda4)
 
 ## User Panel
 #### Dashboard
