@@ -33,11 +33,19 @@
             <p class="bg-success text-center text-light text-info fw-bold fs-5 p-3">
                 [[${quizName}]]
             </p>
+
+            <!-- <div th:if="${quizId}">[[${quizId}]]</div> -->
+
+            <div class="text-center">
+                <a class="btn btn-warning w-75" th:href="@{/admin/quizQuestions(quizId=${quizId})}">
+                    Add Question
+                </a>
+            </div>
             <!-- Display the message -->
             <p class="text-center text-danger fw-bold" id="flashMessage" th:if="${msg}" th:text="${msg}"></p>
 
             <!-- Display questionForm -->
-            <div th:object="${questionForm}">
+            <div th:if="${questionForm}">
 
                 <div class="ques-box bg-dark text-light" th:each="ques, i : ${questionForm.questions}">
                     <p class="title" th:text="${ques.title}"></p>
@@ -65,7 +73,7 @@
                     <!-- <div th:text="'quizId: ' + ${session.quizId} + ', quesId: ' + ${ques.quesId}"></div> -->
                     <div class="text-end">
                         <a class="btn btn-danger btn-sm mx-auto mt-4"
-                            th:href="@{/admin/deleteQuizQuestion(quizId=${quizId},quesId=${ques.quesId})}"
+                            th:href="@{/admin/removeQuizQues(quizId=${quizId},quesId=${ques.quesId})}"
                             onclick="return confirm('Are you sure?')">Remove Question</a>
                     </div>
                 </div>
