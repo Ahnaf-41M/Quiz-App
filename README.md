@@ -18,7 +18,7 @@
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/1c7ab1e5-a7c4-4cac-a427-9f1c82c2bf2b)
 
 #### All Questions
-![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/155d0763-534e-4ae8-b07c-8b05b458f1bd)
+![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/d15fd2fd-b582-4d49-8104-0aacf1dda039)
 
 #### Edit Question
 ![image](https://github.com/Ahnaf-41M/Quiz-App/assets/57319611/42d75c3a-fc56-4990-90a5-1bba2d83edc5)
