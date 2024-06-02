@@ -1,4 +1,17 @@
-# Quiz App - Features
+# Quiz App
+
+## Technology
+#### Frontend
+- HTML5, CSS3, JavaScript
+- Bootstrap5
+- Thymeleaf
+#### Backend
+- Java
+- Spring Boot, Spring Security(role based authentication)
+#### Database
+- MySQL
+
+## Features
 - Fully Functional Admin Panel
 - Standard UI
 - Admin can create new quiz, edit and delete existing quiz
