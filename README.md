@@ -1,6 +1,7 @@
 # Quiz App
 
 ## Technology
+
 #### Frontend
 - HTML5, CSS3, JavaScript
 - Bootstrap5
